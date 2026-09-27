@@ -1,0 +1,87 @@
+=====================================================================
+        GUIA RAPIDA PARA DESCOMPRIMIR ARCHIVOS EN LINUX
+        (unzip, unrar, 7z, bsdtar / tar)
+=====================================================================
+
+INSTALACION
+-----------
+Arch Linux:
+    sudo pacman -S unzip 7zip unrar
+
+Kali / Debian / Ubuntu:
+    sudo apt install unzip unrar 7zip libarchive-tools
+
+
+---------------------------------------------------------------------
+1. UNZIP  ->  archivos .zip
+---------------------------------------------------------------------
+    unzip archivo.zip                  # descomprime en la carpeta actual
+    unzip archivo.zip -d carpeta/      # descomprime en otra carpeta (la crea si no existe)
+    unzip -l archivo.zip               # solo muestra el contenido, no extrae nada
+    unzip -P contraseña archivo.zip    # si tiene contraseña
+    unzip -o archivo.zip               # sobrescribe sin preguntar
+
+
+---------------------------------------------------------------------
+2. UNRAR  ->  archivos .rar
+---------------------------------------------------------------------
+    unrar x archivo.rar                # extrae y respeta las carpetas internas (el que más vas a usar)
+    unrar x archivo.rar carpeta/       # extrae en otra carpeta (pon la / al final)
+    unrar e archivo.rar                # extrae todo en un solo nivel, sin carpetas
+    unrar l archivo.rar                # lista el contenido
+    unrar x -p archivo.rar             # te pide la contraseña
+
+  RAR en varias partes (.part1.rar, .part2.rar, ...):
+    unrar x archivo.part1.rar
+  Extrae solo la primera y unrar busca las demás. Todas las partes
+  tienen que estar en la misma carpeta.
+
+
+---------------------------------------------------------------------
+3. 7Z  ->  casi cualquier formato
+---------------------------------------------------------------------
+  Sirve para .7z, .zip, .rar, .tar, .gz, .xz, .iso y más.
+
+    7z x archivo.7z                    # extrae y respeta las carpetas internas
+    7z x archivo.7z -ocarpeta/         # extrae en otra carpeta (va pegado: -o y la ruta, sin espacio)
+    7z l archivo.7z                    # lista el contenido
+    7z x archivo.7z -pcontraseña       # con contraseña (pegado, sin espacio)
+    7z x archivo.7z -y                 # responde "sí" a todo
+
+  OJO: usa "x", no "e". La "e" tira todos los archivos en una sola
+  carpeta y se pierde la estructura.
+
+
+---------------------------------------------------------------------
+4. BSDTAR / TAR  ->  .tar, .tar.gz, .tar.xz (bsdtar también abre .zip)
+---------------------------------------------------------------------
+    bsdtar -xf archivo.tar.gz              # extrae (detecta el formato solo)
+    bsdtar -xf archivo.tar.gz -C carpeta/  # extrae en otra carpeta (la carpeta debe existir)
+    bsdtar -tf archivo.tar.gz              # lista el contenido
+
+  El tar normal hace lo mismo:
+    tar -xf archivo.tar.gz
+
+
+=====================================================================
+CHULETA RAPIDA
+=====================================================================
+  Formato                          Comando recomendado
+  -------------------------------  ---------------------------
+  .zip                             unzip archivo.zip
+  .rar                             unrar x archivo.rar
+  .7z                              7z x archivo.7z
+  .tar.gz / .tgz / .tar.xz / .tar  tar -xf archivo.tar.gz
+  .gz suelto (sin tar)             gunzip archivo.gz
+  No sé qué formato es             7z x archivo
+
+
+=====================================================================
+CONSEJOS
+=====================================================================
+  - Si no sabes qué es un archivo:  file archivo
+    (te dice el formato real)
+  - Antes de extraer algo que bajaste de internet, ve lo que trae con
+    l / -l / -t. Así no te llena la carpeta de archivos sueltos.
+  - Si un nombre tiene espacios, ponlo entre comillas:
+    unzip "mi archivo.zip"
